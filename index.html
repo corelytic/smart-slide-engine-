@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediaFlow - Smart Video Player &amp; Builder</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Production-ready media workspace</p>
+        <h1>MediaFlow</h1>
+      </div>
+      <nav class="header-links" aria-label="Project links">
+        <a href="documentation.html">Documentation</a>
+      </nav>
+    </header>
+
+    <main class="app-grid">
+      <section class="player-column card">
+        <div class="player-stage">
+          <div class="media-frame">
+            <video id="media-element" preload="metadata" playsinline></video>
+            <div class="player-badge" id="player-badge" hidden>Advertisement</div>
+            <button type="button" id="cta-overlay" class="cta-overlay" hidden></button>
+            <button type="button" id="skip-ad-button" class="skip-ad-button" hidden>Skip Ad</button>
+            <div class="lead-modal-backdrop" id="lead-modal-backdrop" hidden>
+              <div class="lead-modal" role="dialog" aria-modal="true" aria-labelledby="lead-modal-title">
+                <h3 id="lead-modal-title">Unlock Exclusive Content</h3>
+                <p id="lead-modal-copy">Enter your email to keep watching this media experience.</p>
+                <form id="lead-form" class="lead-form" novalidate>
+                  <label for="lead-email" class="sr-only">Email</label>
+                  <input id="lead-email" name="email" type="email" placeholder="you@example.com" required>
+                  <button type="submit" id="lead-submit" class="primary-button">Submit</button>
+                </form>
+                <p id="lead-message" class="lead-message" aria-live="polite"></p>
+                <button type="button" id="lead-dismiss" class="secondary-button">Continue Watching</button>
+              </div>
+            </div>
+            <div class="media-empty-state" id="media-empty-state" hidden>
+              <p>No media selected</p>
+              <span>Choose a playlist item or add one from the builder panel.</span>
+            </div>
+          </div>
+
+          <div class="now-playing" id="now-playing">
+            <div>
+              <h2 id="now-playing-title">Loading sample playlist...</h2>
+              <p id="now-playing-type">Preparing player</p>
+              <p id="player-notice" class="player-notice" aria-live="polite"></p>
+            </div>
+            <button type="button" id="reset-demo-data" class="secondary-button">Reset Demo Data</button>
+          </div>
+
+          <div class="player-controls">
+            <button type="button" id="play-toggle" class="primary-button">Play</button>
+            <label class="progress-control" for="progress-range">
+              <span class="sr-only">Seek</span>
+              <input id="progress-range" type="range" min="0" max="100" value="0" step="0.1">
+            </label>
+            <div class="time-readout">
+              <span id="current-time">00:00</span>
+              <span>/</span>
+              <span id="duration-time">00:00</span>
+            </div>
+            <label class="volume-control" for="volume-range">
+              <span>Volume</span>
+              <input id="volume-range" type="range" min="0" max="1" value="0.85" step="0.01">
+            </label>
+            <button type="button" id="fullscreen-toggle">Fullscreen</button>
+          </div>
+        </div>
+
+        <div class="playlist-panel">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Stored locally</p>
+              <h2>Playlist</h2>
+            </div>
+            <span class="playlist-count" id="playlist-count">0 items</span>
+          </div>
+          <ul id="playlist-list" class="playlist-list" aria-live="polite"></ul>
+
+          <div class="analytics-panel">
+            <div class="section-heading compact">
+              <h3>Performance</h3>
+            </div>
+            <div class="analytics-grid">
+              <p class="analytics-metric"><span>Plays</span><strong id="analytics-plays">0</strong></p>
+              <p class="analytics-metric"><span>CTA Clicks</span><strong id="analytics-cta-clicks">0</strong></p>
+              <p class="analytics-metric"><span>Leads Captured</span><strong id="analytics-leads">0</strong></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="builder-column card">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Builder panel</p>
+            <h2>Add Media</h2>
+          </div>
+        </div>
+
+        <form id="builder-form" class="builder-form" novalidate>
+          <label for="media-title">Title</label>
+          <input id="media-title" name="title" type="text" maxlength="120" required>
+
+          <label for="media-url">Media URL</label>
+          <input id="media-url" name="url" type="url" placeholder="https://example.com/video.mp4" required>
+
+          <label for="media-thumbnail">Thumbnail URL (optional)</label>
+          <input id="media-thumbnail" name="thumbnail" type="url" placeholder="https://example.com/cover.jpg">
+
+          <label for="media-type">Media Type</label>
+          <select id="media-type" name="type">
+            <option value="video">Video</option>
+            <option value="audio">Audio</option>
+          </select>
+
+          <details class="builder-group" open>
+            <summary class="builder-group-summary">CTA Overlay</summary>
+            <div class="builder-subsection">
+            <label for="cta-text">CTA Text</label>
+            <input id="cta-text" name="ctaText" type="text" maxlength="80" placeholder="Learn More">
+
+            <label for="cta-link">CTA Link</label>
+            <input id="cta-link" name="ctaLink" type="url" placeholder="https://example.com/offer">
+
+            <div class="inline-fields">
+              <div>
+                <label for="cta-start">CTA Start (sec)</label>
+                <input id="cta-start" name="ctaStart" type="number" min="0" step="1" value="5">
+              </div>
+              <div>
+                <label for="cta-end">CTA End (sec)</label>
+                <input id="cta-end" name="ctaEnd" type="number" min="0" step="1" value="15">
+              </div>
+            </div>
+            </div>
+          </details>
+
+          <details class="builder-group">
+            <summary class="builder-group-summary">Lead Capture</summary>
+            <div class="builder-subsection">
+            <label for="lead-enabled">Lead Capture</label>
+            <select id="lead-enabled" name="leadEnabled">
+              <option value="false">Disabled</option>
+              <option value="true">Enabled</option>
+            </select>
+
+            <div class="inline-fields">
+              <div>
+                <label for="lead-trigger">Lead Trigger (sec)</label>
+                <input id="lead-trigger" name="leadTrigger" type="number" min="0" step="1" value="10">
+              </div>
+              <div>
+                <label for="lead-required">Required</label>
+                <select id="lead-required" name="leadRequired">
+                  <option value="false">No</option>
+                  <option value="true">Yes</option>
+                </select>
+              </div>
+            </div>
+            </div>
+          </details>
+
+          <details class="builder-group">
+            <summary class="builder-group-summary">Advertising</summary>
+            <div class="builder-subsection">
+            <label for="pre-roll-url">Pre-roll Ad URL</label>
+            <input id="pre-roll-url" name="preRollUrl" type="url" placeholder="https://example.com/preroll.mp4">
+
+            <label for="pre-roll-skip">Pre-roll Skip After (sec)</label>
+            <input id="pre-roll-skip" name="preRollSkipAfter" type="number" min="0" step="1" value="5">
+
+            <label for="mid-roll-url">Mid-roll Ad URL</label>
+            <input id="mid-roll-url" name="midRollUrl" type="url" placeholder="https://example.com/midroll.mp4">
+
+            <div class="inline-fields">
+              <div>
+                <label for="mid-roll-time">Mid-roll Time (sec)</label>
+                <input id="mid-roll-time" name="midRollTime" type="number" min="0" step="1" value="20">
+              </div>
+              <div>
+                <label for="mid-roll-skip">Mid-roll Skip After (sec)</label>
+                <input id="mid-roll-skip" name="midRollSkipAfter" type="number" min="0" step="1" value="5">
+              </div>
+            </div>
+            </div>
+          </details>
+
+          <button type="submit" class="primary-button">Add to Playlist</button>
+          <p id="builder-message" class="builder-message" aria-live="polite"></p>
+        </form>
+
+        <div class="preview-panel">
+          <div class="section-heading compact">
+            <h3>Live Preview</h3>
+          </div>
+          <article id="builder-preview" class="builder-preview"></article>
+        </div>
+
+        <div class="embed-panel">
+          <div class="section-heading compact">
+            <h3>Embed Generator</h3>
+          </div>
+          <button type="button" id="generate-embed" class="secondary-button">Generate Embed Code</button>
+
+          <label for="embed-html-output">HTML Snippet</label>
+          <textarea id="embed-html-output" readonly></textarea>
+          <button type="button" id="copy-html" class="copy-button">Copy HTML</button>
+
+          <label for="embed-json-output">JSON Config</label>
+          <textarea id="embed-json-output" readonly></textarea>
+          <button type="button" id="copy-json" class="copy-button">Copy JSON</button>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script src="assets/js/player.js"></script>
+  <script src="assets/js/playlist.js"></script>
+  <script src="assets/js/builder.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
