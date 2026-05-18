@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlowDeck | HTML5 Marketing Story App</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="hero-shell glass-card">
+      <div class="hero-copy">
+        <p class="eyebrow">Visual Story Workspace</p>
+        <h1>FlowDeck | HTML5 Marketing Story App</h1>
+        <p class="hero-subtitle">Turn a simple topic into a polished, conversion-ready visual story with structured content, refined layouts, and instant visual improvements.</p>
+        <div class="hero-actions">
+          <button type="button" class="primary-btn" data-action="generate-slide">Generate Story</button>
+          <button type="button" class="primary-btn" id="autopilotButton">Optimize for Conversion</button>
+          <button type="button" class="secondary-btn" data-action="toggle-templates">Browse Templates</button>
+          <button type="button" class="ghost-btn" data-action="start-blank">Start Blank</button>
+        </div>
+      </div>
+      <div class="hero-showcase glass-card">
+        <p class="showcase-label">Built for product launches, pitches, growth campaigns, and premium marketing decks.</p>
+        <div class="showcase-stats">
+          <div>
+            <strong id="templateCountNumber">24</strong>
+            <span id="templateCountLabel">24 Conversion Templates</span>
+          </div>
+          <div>
+            <strong>5</strong>
+            <span id="useCaseCountLabel">5 Use Cases Covered</span>
+          </div>
+          <div>
+            <strong>0</strong>
+            <span>Console errors</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="why-strip glass-card" aria-label="Why this tool">
+      <article class="why-point">
+        <strong>Instant visual generation</strong>
+        <p>Move from topic to polished story in seconds with structured content.</p>
+      </article>
+      <article class="why-point">
+        <strong>Conversion-focused layouts</strong>
+        <p>Use templates designed for launches, growth campaigns, and offer-driven messaging.</p>
+      </article>
+      <article class="why-point">
+        <strong>Export-ready HTML</strong>
+        <p>Generate visual stories you can preview, refine, and export with confidence.</p>
+      </article>
+    </section>
+
+    <main class="workspace">
+      <section class="control-panel glass-card" aria-label="Story controls">
+        <div class="control-heading">
+          <div>
+            <p class="eyebrow">Story Controls</p>
+            <h2>Topic to Story</h2>
+          </div>
+          <span class="status-badge" id="statusBadge">Ready</span>
+        </div>
+        <label class="field-label" for="topicInput">Topic</label>
+        <div class="control-row">
+          <input id="topicInput" name="topic" type="text" maxlength="80" placeholder="Enter a topic for your story">
+          <button type="button" class="secondary-btn" data-action="generate-slide">Generate Story</button>
+          <button type="button" class="secondary-btn" id="generateVariationsButton" data-action="generate-variations">Generate Variations</button>
+          <button type="button" class="secondary-btn" data-action="toggle-templates">Browse Templates</button>
+          <button type="button" class="ghost-btn" data-action="preview-current">Preview Full Story</button>
+          <button type="button" class="ghost-btn" data-action="copy-html">Copy HTML</button>
+          <button type="button" class="ghost-btn" data-action="export-html">Export HTML</button>
+          <button type="button" class="ghost-btn" data-action="export-project">Export Project</button>
+          <button type="button" class="ghost-btn" data-action="import-project">Import Project</button>
+        </div>
+        <input id="projectImportInput" type="file" accept="application/json,.json" class="sr-only">
+      </section>
+
+      <section class="canvas-stage">
+        <div class="builder-layout">
+          <div class="canvas-primary">
+            <div class="canvas-header">
+              <div class="canvas-header-row">
+                <div>
+                <p class="eyebrow">Live Canvas</p>
+                <h2>1080 x 1080 Conversion Canvas</h2>
+                </div>
+                <div class="canvas-header-actions">
+                  <button type="button" class="ghost-btn canvas-action-btn" id="heatmapToggleButton" data-action="toggle-heatmap">Show Attention Map</button>
+                  <button type="button" class="ghost-btn canvas-action-btn" data-action="replay-animation">Replay Animation</button>
+                </div>
+              </div>
+            </div>
+            <div id="slideCanvas" class="slide-canvas glass-card" aria-live="polite">
+              <div id="heatmap-overlay" class="heatmap-overlay" aria-hidden="true"></div>
+              <div id="heatmap-badge" class="canvas-proof" aria-live="polite">Attention Map Active</div>
+              <div id="canvasLoader" class="canvas-loader hidden" aria-hidden="true">
+                <div class="canvas-loader-card">
+                  <span class="canvas-loader-dot"></span>
+                  <strong id="canvasLoaderText">Building high-conversion story...</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+          <section id="editPanel" class="edit-panel edit-panel-primary glass-card" aria-live="polite">
+            <div class="edit-header">
+              <div>
+                <p class="eyebrow">Story Editor</p>
+                <h3 id="editPanelTitle">Build And Refine Your Story</h3>
+              </div>
+              <button type="button" class="ghost-btn" data-action="reset-slide">Reset Story</button>
+            </div>
+            <div class="edit-grid">
+              <label class="edit-field" for="headlineInput">
+                <span>Headline</span>
+                <input id="headlineInput" type="text" maxlength="120" placeholder="Headline text">
+              </label>
+              <label class="edit-field" for="subheadlineInput">
+                <span>Subheadline</span>
+                <input id="subheadlineInput" type="text" maxlength="180" placeholder="Subheadline text">
+              </label>
+              <label class="edit-field" for="ctaInput">
+                <span>CTA</span>
+                <input id="ctaInput" type="text" maxlength="40" placeholder="CTA text">
+              </label>
+              <div class="edit-row edit-row-split">
+                <span>Headline Position</span>
+                <div class="edit-actions">
+                  <button type="button" class="secondary-btn edit-btn" data-action="move-field" data-field="headline" data-direction="up">Move Up</button>
+                  <button type="button" class="secondary-btn edit-btn" data-action="move-field" data-field="headline" data-direction="down">Move Down</button>
+                </div>
+              </div>
+              <div class="edit-row edit-row-split">
+                <span>CTA Position</span>
+                <div class="edit-actions">
+                  <button type="button" class="secondary-btn edit-btn" data-action="move-field" data-field="cta" data-direction="up">Move Up</button>
+                  <button type="button" class="secondary-btn edit-btn" data-action="move-field" data-field="cta" data-direction="down">Move Down</button>
+                </div>
+              </div>
+              <div class="edit-row edit-row-split">
+                <span>Headline Size</span>
+                <div class="edit-actions">
+                  <button type="button" class="secondary-btn edit-btn" data-action="font-size" data-field="headline" data-direction="down">Headline -</button>
+                  <button type="button" class="secondary-btn edit-btn" data-action="font-size" data-field="headline" data-direction="up">Headline +</button>
+                </div>
+              </div>
+              <div class="edit-row edit-row-split">
+                <span>Subheadline Size</span>
+                <div class="edit-actions">
+                  <button type="button" class="secondary-btn edit-btn" data-action="font-size" data-field="subheadline" data-direction="down">Subheadline -</button>
+                  <button type="button" class="secondary-btn edit-btn" data-action="font-size" data-field="subheadline" data-direction="up">Subheadline +</button>
+                </div>
+              </div>
+              <div class="edit-row edit-row-split">
+                <span>Alignment</span>
+                <div class="edit-actions">
+                  <button type="button" class="secondary-btn edit-btn" data-action="set-alignment" data-align="left">Left</button>
+                  <button type="button" class="secondary-btn edit-btn" data-action="set-alignment" data-align="center">Center</button>
+                  <button type="button" class="secondary-btn edit-btn" data-action="set-alignment" data-align="right">Right</button>
+                </div>
+              </div>
+              <label class="edit-field" for="spacingControl">
+                <span>Spacing</span>
+                <input id="spacingControl" type="range" min="0" max="100" value="40">
+              </label>
+              <div class="edit-row edit-row-split">
+                <span>CTA Style</span>
+                <div class="edit-actions">
+                  <button type="button" class="secondary-btn edit-btn" data-action="set-cta-style" data-style="solid">Solid</button>
+                  <button type="button" class="secondary-btn edit-btn" data-action="set-cta-style" data-style="outline">Outline</button>
+                  <button type="button" class="secondary-btn edit-btn" data-action="set-cta-style" data-style="ghost">Ghost</button>
+                </div>
+              </div>
+              <div class="edit-row edit-row-split">
+                <span>Layout Presets</span>
+                <div class="edit-actions">
+                  <button type="button" class="secondary-btn edit-btn" data-action="set-layout-type" data-layout-type="hero">Hero</button>
+                  <button type="button" class="secondary-btn edit-btn" data-action="set-layout-type" data-layout-type="split">Split</button>
+                  <button type="button" class="secondary-btn edit-btn" data-action="set-layout-type" data-layout-type="minimal">Minimal</button>
+                </div>
+              </div>
+              <label class="edit-field" for="backgroundControl">
+                <span>Background</span>
+                <select id="backgroundControl">
+                  <option value="bg-1">bg-1</option>
+                  <option value="bg-2">bg-2</option>
+                  <option value="bg-3">bg-3</option>
+                  <option value="bg-4">bg-4</option>
+                  <option value="bg-5">bg-5</option>
+                  <option value="bg-6">bg-6</option>
+                </select>
+              </label>
+            </div>
+            <div class="edit-direct-note">Click the headline or subheadline on the canvas to edit directly.</div>
+          </section>
+        </div>
+
+        <section id="variations-section" class="variation-panel glass-card" aria-live="polite">
+            <div class="variation-header">
+              <div>
+                <p class="eyebrow">Conversion Strategies</p>
+                <h3 id="variationTitle">Apply A Stronger Direction In One Click</h3>
+              </div>
+              <span id="variationStatus" class="variation-label">3 curated versions from your current story</span>
+            </div>
+          <div id="variationList" class="variation-list"></div>
+        </section>
+
+          <section class="insights-panel glass-card" aria-label="Story insights">
+            <div class="score-block">
+              <p class="eyebrow">Conversion Score</p>
+              <div class="score-row">
+                <strong id="scoreValue">100</strong>
+                <span id="scoreCaption">Complete message structure</span>
+              </div>
+              <div class="score-meter">
+                <div id="scoreFill" class="score-fill"></div>
+              </div>
+              <p id="scoreBreakdown" class="score-breakdown">Headline 30 · Subheadline 30 · CTA 40</p>
+              <div id="scoreExplanation" class="score-explanation"></div>
+              <div class="metric-grid" id="scoreMetrics">
+                <div class="metric-card">
+                  <span>Headline clarity</span>
+                  <div class="metric-bar"><div id="headlineMetricFill" class="metric-fill"></div></div>
+                </div>
+              <div class="metric-card">
+                <span>CTA visibility</span>
+                <div class="metric-bar"><div id="ctaMetricFill" class="metric-fill"></div></div>
+              </div>
+              <div class="metric-card">
+                <span>Spacing quality</span>
+                <div class="metric-bar"><div id="spacingMetricFill" class="metric-fill"></div></div>
+              </div>
+              <div class="metric-card">
+                <span>Visual hierarchy</span>
+                <div class="metric-bar"><div id="hierarchyMetricFill" class="metric-fill"></div></div>
+              </div>
+            </div>
+          </div>
+            <div class="fix-block">
+              <p class="eyebrow">Conversion Autopilot</p>
+              <h3>Improve readability instantly</h3>
+              <p class="fix-copy">Increase spacing, drop the CTA slightly lower, and open up line-height without changing your content model.</p>
+              <div class="fix-actions">
+                <button type="button" class="primary-btn" data-action="smart-fix">Run Conversion Autopilot</button>
+                <button type="button" class="secondary-btn" data-action="optimize-slide">Optimize Story</button>
+              </div>
+            </div>
+          </section>
+
+        <section id="autopilot-result" class="fix-comparison hidden" aria-live="polite">
+          <div class="comparison-header">
+            <div>
+              <p class="eyebrow">Optimization Result</p>
+              <span id="fixComparisonLabel" class="comparison-label">Improved by Conversion Autopilot</span>
+            </div>
+            <p class="comparison-summary">Score improved from <strong id="comparisonFromScore">75</strong> → <strong id="comparisonToScore">92</strong></p>
+          </div>
+            <div class="comparison-grid">
+              <div class="comparison-card comparison-card-before">
+                <span class="comparison-state">Before</span>
+                <div class="comparison-score">Score <strong id="beforeComparisonScore">75</strong></div>
+                <div id="beforeFixCanvas" class="comparison-canvas comparison-canvas-before"></div>
+              </div>
+              <div class="comparison-card comparison-card-after">
+                <span class="comparison-state">After</span>
+                <div class="comparison-score">Score <strong id="afterComparisonScore">92</strong></div>
+                <div id="afterFixCanvas" class="comparison-canvas comparison-canvas-after"></div>
+              </div>
+            </div>
+          </section>
+
+        <section id="decisionEnginePanel" class="decision-panel glass-card hidden" aria-live="polite">
+          <div class="decision-header">
+            <div>
+              <p class="eyebrow">Conversion Decision Engine</p>
+              <h3>Conversion Decision Engine</h3>
+            </div>
+            <span class="decision-powered">Powered by Conversion Autopilot</span>
+          </div>
+          <div class="decision-grid">
+            <div class="decision-card">
+              <span class="decision-label">Strategy Applied</span>
+              <strong id="decisionStrategy">High Conversion</strong>
+            </div>
+            <div class="decision-card">
+              <span class="decision-label">Conversion Confidence</span>
+              <strong id="decisionConfidence">92%</strong>
+            </div>
+            <div class="decision-card">
+              <span class="decision-label">Estimated Improvement</span>
+              <strong id="decisionImprovement">+14 score improvement</strong>
+            </div>
+          </div>
+          <div class="decision-reasons">
+            <p class="decision-copy">Why this will convert better</p>
+            <div id="decisionReasonsList" class="decision-list"></div>
+          </div>
+        </section>
+
+        <section id="autopilot-issues" class="issues-panel glass-card hidden" aria-live="polite">
+          <div class="issues-header">
+            <p class="eyebrow">Why this improved</p>
+            <h3>Why this improved</h3>
+          </div>
+          <div id="autopilotIssuesList" class="issues-list"></div>
+        </section>
+
+        <section class="edit-panel edit-panel-secondary glass-card" aria-label="Secondary editor summary">
+          <div class="edit-secondary-copy">
+            <p class="eyebrow">Quick Editing</p>
+            <h3>Primary controls now live beside the canvas</h3>
+            <p>Keep your focus on the visual. Direct text editing and layout controls stay visible while scoring, optimization, variations, and export remain below.</p>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <aside id="templatesPanel" class="templates-panel hidden" aria-hidden="true" aria-label="Templates">
+    <div class="templates-overlay" data-action="close-templates"></div>
+    <div class="templates-dialog glass-card">
+      <div class="panel-header">
+        <div>
+          <p class="eyebrow">Template Grid</p>
+          <h2>Browse Premium Layout Starters</h2>
+        </div>
+        <button type="button" class="icon-btn" data-action="close-templates" aria-label="Close templates">×</button>
+      </div>
+      <div id="templateFilters" class="template-filters" aria-label="Template categories"></div>
+      <div id="templatesList" class="templates-grid"></div>
+      <div id="templatesEmptyState" class="templates-empty hidden">
+        <p>Templates not loaded — retry</p>
+        <button type="button" class="secondary-btn" data-action="reload-templates">Reload Templates</button>
+      </div>
+    </div>
+  </aside>
+
+  <div id="previewModal" class="modal hidden" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="previewTitle">
+    <div class="modal-backdrop" data-action="close-preview"></div>
+    <div class="modal-card glass-card">
+      <button type="button" class="icon-btn preview-close" data-action="close-preview" aria-label="Close preview">×</button>
+      <h2 id="previewTitle" class="sr-only">Rendered Story</h2>
+      <div id="modalCanvas" class="slide-canvas preview-canvas"></div>
+    </div>
+  </div>
+
+  <div id="exportModal" class="modal hidden" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="exportTitle">
+    <div class="modal-backdrop" data-action="close-export-modal"></div>
+    <div class="modal-card export-modal-card glass-card">
+      <button type="button" class="icon-btn preview-close" data-action="close-export-modal" aria-label="Close export modal">×</button>
+        <div class="export-modal-copy">
+          <p class="eyebrow">Export Successful</p>
+          <h2 id="exportTitle">Your visual story is ready for production.</h2>
+          <p>Clean HTML. Ready to use. No dependencies.</p>
+          <p>Use the quick actions below to preview the standalone file, copy the full HTML, or close and continue editing.</p>
+        </div>
+      <div class="export-modal-actions">
+        <button type="button" class="primary-btn" data-action="preview-export">Preview Export</button>
+        <button type="button" class="secondary-btn" data-action="copy-export-html">Copy HTML</button>
+        <button type="button" class="ghost-btn" data-action="close-export-modal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="assets/js/engine.js" defer></script>
+  <script src="assets/js/app.js" defer></script>
+</body>
+</html>
